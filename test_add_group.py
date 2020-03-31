@@ -5,6 +5,7 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 from group import Group
 
+
 class TestAddGroup(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
@@ -63,9 +64,9 @@ class TestAddGroup(unittest.TestCase):
     def open_home_page(self, wd):
         wd.get("http://localhost/addressbook/")
 
-
     def tearDown(self):
         self.wd.quit()
+
 
 if __name__ == "__main__":
     unittest.main()
