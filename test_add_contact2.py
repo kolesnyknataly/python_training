@@ -6,6 +6,7 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 from contacts import Contacts
 
+
 class TestAddContact(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox()
@@ -21,19 +22,6 @@ class TestAddContact(unittest.TestCase):
                             notes="hghg"))
         self.return_to_home_page(wd)
         self.logout(wd)
-
-    def test_add_empty_contact(self):
-            wd = self.wd
-            self.open_home_page(wd)
-            self.login(wd, username="admin", password="secret")
-            self.open_add_contact_page(wd)
-            self.create_contact(wd, Contacts(first_name="", middle_name="", last_name="", nickname="",
-                                title="", company="", address="", home="",
-                                mobile="", work="", fax="", email="", email_2="",
-                                homepage="", b_year="", address_2="",
-                                notes=""))
-            self.return_to_home_page(wd)
-            self.logout(wd)
 
     def logout(self, wd):
         wd.find_element_by_link_text("Logout").click()
@@ -119,10 +107,10 @@ class TestAddContact(unittest.TestCase):
         try: self.wd.switch_to_alert()
         except NoAlertPresentException as e: return False
         return True
-    
 
     def tearDown(self):
         self.wd.quit()
+
 
 if __name__ == "__main__":
     unittest.main()
