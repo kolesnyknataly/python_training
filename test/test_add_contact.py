@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
 from model.contacts import Contacts
-from fixture.application import Application
-import pytest
-
-
-@pytest.fixture()
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
+import time
 
     
 def test_add_contact(app):
@@ -17,4 +9,5 @@ def test_add_contact(app):
                                  mobile="75675", work="8787", fax="55657", email="testing@gna.yt", email_2="hgjgj2TR.UY", homepage="rtete.com", b_year="1993", address_2="ytyt",
                                  notes="hghg"))
     app.session.logout()
+    time.sleep(2)
 
