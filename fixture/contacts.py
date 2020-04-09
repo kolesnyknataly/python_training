@@ -75,7 +75,7 @@ class ContactsHelpers:
     def edit_first_contact(self):
         wd = self.app.wd
         # init contact editing
-        wd.find_element_by_xpath("//a[@href='edit.php?id=22']").click()
+        wd.find_element_by_xpath('//img[@src="icons/pencil.png"]').click()
         # fill contact form
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
