@@ -3,6 +3,10 @@ class ContactsHelpers:
     def __init__(self, app):
         self.app = app
 
+    def open_contacts_page(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+
     def open_add_contact_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("add new").click()
@@ -66,6 +70,7 @@ class ContactsHelpers:
 
     def delete_first_contact(self):
         wd = self.app.wd
+        self.open_contacts_page()
         # select first contact
         wd.find_element_by_name("selected[]").click()
         # submit deletion
@@ -74,6 +79,7 @@ class ContactsHelpers:
 
     def edit_first_contact(self):
         wd = self.app.wd
+        self.open_contacts_page()
         # init contact editing
         wd.find_element_by_xpath('//img[@src="icons/pencil.png"]').click()
         # fill contact form
