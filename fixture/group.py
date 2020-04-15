@@ -1,5 +1,6 @@
 from model.group import Group
 
+
 class GroupHelper:
 
     def __init__(self, app):
@@ -38,7 +39,7 @@ class GroupHelper:
         wd.find_element_by_name("delete").click()
         self.return_to_groups_page()
 
-    def edit_first_group(self):
+    def edit_first_group(self, group):
         wd = self.app.wd
         self.open_groups_page()
         # select first group
