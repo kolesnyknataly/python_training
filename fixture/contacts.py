@@ -83,7 +83,7 @@ class ContactsHelpers:
         wd.find_element_by_xpath("//*[@value='Delete']").click()
         wd.switch_to_alert().accept()
 
-    def edit_first_contact(self, contact):
+    def edit_first_contact(self):
         wd = self.app.wd
         self.open_contacts_page()
         # init contact editing
@@ -158,10 +158,8 @@ class ContactsHelpers:
         for element in wd.find_elements_by_css_selector("tr"):
             if element.get_attribute("name") != 'entry':
                 continue
-
             last_name = element.find_elements_by_css_selector("td")[1].text
             first_name = element.find_elements_by_css_selector("td")[2].text
-
             id = element.find_element_by_name("selected[]").get_attribute("value")
             contacts.append(Contacts(first_name=first_name, last_name=last_name, id=id))
         return contacts
