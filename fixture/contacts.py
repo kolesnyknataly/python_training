@@ -231,7 +231,7 @@ class ContactsHelpers:
         home = wd.find_element_by_name("home").get_attribute("value")
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
         work = wd.find_element_by_name("work").get_attribute("value")
-        phone2 = wd.find_element_by_name("notes").get_attribute("notes")
+        phone2 = wd.find_element_by_name("phone2").get_attribute("value")
         return Contacts(first_name=first_name, last_name=last_name, id=id, home=home, work=work, mobile=mobile,
                         phone2=phone2)
 

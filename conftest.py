@@ -1,5 +1,6 @@
 import pytest
 from fixture.application import Application
+import time
 
 fixture = None
 
@@ -21,5 +22,12 @@ def stop(request):
     def fin():
         fixture.session.ensure_logout()
         fixture.destroy()
+
     request.addfinalizer(fin)
     return fixture
+
+
+@pytest.fixture(autouse=True)
+def sleep():
+    time.sleep(2)
+    yield
