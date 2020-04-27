@@ -186,10 +186,9 @@ class ContactsHelpers:
                 last_name = element.find_elements_by_css_selector("td")[1].text
                 first_name = element.find_elements_by_css_selector("td")[2].text
                 id = element.find_element_by_name("selected[]").get_attribute("value")
-                all_phones = element.find_elements_by_css_selector("td")[5].text.splitlines()
+                all_phones = element.find_elements_by_css_selector("td")[5].text
                 self.contact_cache.append(Contacts(first_name=first_name, last_name=last_name, id=id,
-                                                   home=all_phones[0], mobile=all_phones[1], work=all_phones[2],
-                                                   phone2=all_phones[3]))
+                                                   all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
 
     def open_contact_view_by_index(self, index):
@@ -228,6 +227,7 @@ class ContactsHelpers:
         work = re.search("W: (.*)", text).group(1)
         phone2 = re.search("P: (.*)", text).group(1)
         return Contacts(home=home, work=work, mobile=mobile, phone2=phone2)
+
 
 
 
