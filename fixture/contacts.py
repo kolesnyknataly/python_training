@@ -174,24 +174,7 @@ class ContactsHelpers:
 
     contact_cache = None
 
-    def get_contact_list_for_create(self):
-        if self.contact_cache is None:
-            wd = self.app.wd
-            self.open_contacts_page()
-            self.contact_cache = []
-            for element in wd.find_elements_by_css_selector("tr"):
-                if element.get_attribute("name") != 'entry':
-                    continue
-                last_name = element.find_elements_by_css_selector("td")[1].text
-                first_name = element.find_elements_by_css_selector("td")[2].text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                all_phones = element.find_elements_by_css_selector("td")[5].text.splitlines()
-                self.contact_cache.append(Contacts(first_name=first_name, last_name=last_name, id=id,
-                                                   home=all_phones, mobile=all_phones, work=all_phones,
-                                                   phone2=all_phones))
-        return list(self.contact_cache)
-
-    def get_contact_list_for_phones(self):
+    def get_contact_list(self):
         if self.contact_cache is None:
             wd = self.app.wd
             self.open_contacts_page()
