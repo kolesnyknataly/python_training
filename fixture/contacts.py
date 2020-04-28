@@ -192,9 +192,10 @@ class ContactsHelpers:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 all_phones = element.find_elements_by_css_selector("td")[5].text
                 all_emails = element.find_elements_by_css_selector("td")[4].text
+                address = element.find_elements_by_css_selector("td")[3].text
                 self.contact_cache.append(Contacts(first_name=first_name, last_name=last_name, id=id,
                                                    all_phones_from_home_page=all_phones,
-                                                   all_emails_from_home_page=all_emails))
+                                                   all_emails_from_home_page=all_emails, address=address))
         return list(self.contact_cache)
 
     def open_contact_view_by_index(self, index):
@@ -224,8 +225,9 @@ class ContactsHelpers:
         email = wd.find_element_by_name("email").get_attribute("value")
         email_2 = wd.find_element_by_name("email2").get_attribute("value")
         email_3 = wd.find_element_by_name("email3").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
         return Contacts(first_name=first_name, last_name=last_name, id=id, home=home, work=work, mobile=mobile,
-                        phone2=phone2, email=email, email_2=email_2, email_3=email_3)
+                        phone2=phone2, email=email, email_2=email_2, email_3=email_3, address=address)
 
     def get_contact_from_view_page(self, index):
         wd = self.app.wd
@@ -237,18 +239,3 @@ class ContactsHelpers:
         phone2 = re.search("P: (.*)", text).group(1)
         return Contacts(home=home, work=work, mobile=mobile, phone2=phone2)
 
-
-
-
-"""    def get_contact_list(self):
-        if self.contact_cache is None:
-            wd = self.app.wd
-            self.open_contacts_page()
-            self.contact_cache = []
-            for element in wd.find_elements_by_css_selector("tr"):
-                if element.get_attribute("name") != 'entry':
-                    continue
-                last_name = element.find_elements_by_css_selector("td")[1].text
-                first_name = element.find_elements_by_css_selector("td")[2].text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                all_phones = cells[5].splitlines()"""
