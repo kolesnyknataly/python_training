@@ -2,7 +2,7 @@ from model.contacts import Contacts
 from random import randrange
 
 
-def test_edit_some_contact(app, db):
+def test_edit_some_contact(app, db, check_ui):
     if len(db.get_contact_list()) == 0:
         app.contacts.create((Contacts(first_name="test", middle_name="test2", last_name="test3", nickname="test4",
                                       title="test5", company="test_company", address="trtrtrt", home="64645",
@@ -23,3 +23,5 @@ def test_edit_some_contact(app, db):
     new_contacts = db.get_contact_list()
     old_contacts[index] = changed_contact
     assert sorted(old_contacts, key=Contacts.id_or_max) == sorted(new_contacts, key=Contacts.id_or_max)
+    if check_ui:
+        assert sorted(new_contacts, key=Contacts.id_or_max) == sorted(app.contacts.get_contact_list(), key=Contacts.id_or_max)
