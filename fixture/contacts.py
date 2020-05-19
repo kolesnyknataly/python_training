@@ -1,5 +1,7 @@
 from model.contacts import Contacts
 import re
+import random
+from selenium.webdriver.support.ui import Select
 
 
 class ContactsHelpers:
@@ -287,6 +289,22 @@ class ContactsHelpers:
                                                    ))
         return list(self.contact_cache)
 
+    def get_contact_list_from_group(self, group_name):
+        wd = self.app.wd
+        self.open_contacts_page()
+        select_element = Select(wd.find_element_by_name('group'))
+        select_element.select_by_visible_text(group_name)
+        contacts_from_group = []
+        for element in wd.find_elements_by_css_selector("tr"):
+            if element.get_attribute("name") != 'entry':
+                continue
+            last_name = element.find_elements_by_css_selector("td")[1].text
+            first_name = element.find_elements_by_css_selector("td")[2].text
+            address = element.find_elements_by_css_selector("td")[3].text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts_from_group.append(Contacts(first_name=first_name, last_name=last_name, id=id, address=address))
+        return list(contacts_from_group)
+
     def open_contact_view_by_index(self, index):
         wd = self.app.wd
         self.open_contacts_page()
@@ -327,3 +345,20 @@ class ContactsHelpers:
         work = re.search("W: (.*)", text).group(1)
         phone2 = re.search("P: (.*)", text).group(1)
         return Contacts(home=home, work=work, mobile=mobile, phone2=phone2)
+
+    def add_contact_to_group_by_id(self, id, group_name):
+        wd = self.app.wd
+        select_element = Select(wd.find_element_by_name('group'))
+        select_element.select_by_visible_text('[all]')
+        self.select_contact_by_id(id)
+        select_element = Select(wd.find_element_by_name('to_group'))
+        select_element.select_by_visible_text(group_name)
+        wd.find_element_by_name("add").click()
+
+    def get_random_group_for_add_contact(self):
+        wd = self.app.wd
+        self.open_contacts_page()
+        select_element = Select(wd.find_element_by_name('to_group'))
+        all_groups = [o.text for o in select_element.options]
+        random_group = random.choice(all_groups)
+        return random_group
