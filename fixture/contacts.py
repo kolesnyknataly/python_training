@@ -2,6 +2,7 @@ from model.contacts import Contacts
 import re
 import random
 from selenium.webdriver.support.ui import Select
+from model.group import Group
 
 
 class ContactsHelpers:
@@ -187,6 +188,7 @@ class ContactsHelpers:
     def edit_contact_by_id(self, id, contact):
         wd = self.app.wd
         self.open_contacts_page()
+        self.open_all_contacts_list()
         # self.select_contact_by_index(index)
         # init contact editing
         self.find_contact_for_edit_by_id(id)
@@ -362,3 +364,17 @@ class ContactsHelpers:
         all_groups = [o.text for o in select_element.options]
         random_group = random.choice(all_groups)
         return random_group
+
+    def delete_contact_from_group_by_id(self, id, group_name):
+        wd = self.app.wd
+        select_element = Select(wd.find_element_by_name('group'))
+        select_element.select_by_visible_text(group_name)
+        self.select_contact_by_id(id)
+        wd.find_element_by_name('remove').click()
+        wd.find_element_by_xpath("//i[text()='return to ']").click()
+
+
+    def open_all_contacts_list(self):
+        wd = self.app.wd
+        select_element = Select(wd.find_element_by_name('group'))
+        select_element.select_by_visible_text('[all]')
