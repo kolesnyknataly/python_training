@@ -291,11 +291,11 @@ class ContactsHelpers:
                                                    ))
         return list(self.contact_cache)
 
-    def get_contact_list_from_group(self, group_name):
+    def get_contact_list_from_group(self, group_id):
         wd = self.app.wd
         self.open_contacts_page()
         select_element = Select(wd.find_element_by_name('group'))
-        select_element.select_by_visible_text(group_name)
+        select_element.select_by_value(group_id)
         contacts_from_group = []
         for element in wd.find_elements_by_css_selector("tr"):
             if element.get_attribute("name") != 'entry':
@@ -348,22 +348,22 @@ class ContactsHelpers:
         phone2 = re.search("P: (.*)", text).group(1)
         return Contacts(home=home, work=work, mobile=mobile, phone2=phone2)
 
-    def add_contact_to_group_by_id(self, id, group_name):
+    def add_contact_to_group_by_id(self, id, group_id):
         wd = self.app.wd
         select_element = Select(wd.find_element_by_name('group'))
         select_element.select_by_visible_text('[all]')
         self.select_contact_by_id(id)
         select_element = Select(wd.find_element_by_name('to_group'))
-        select_element.select_by_visible_text(group_name)
+        select_element.select_by_value(group_id)
         wd.find_element_by_name("add").click()
 
     def get_random_group_for_add_contact(self):
         wd = self.app.wd
         self.open_contacts_page()
         select_element = Select(wd.find_element_by_name('to_group'))
-        all_groups = [o.text for o in select_element.options]
-        random_group = random.choice(all_groups)
-        return random_group
+        all_groups_ids = [o.get_attribute("value") for o in select_element.options]
+        random_group_id = random.choice(all_groups_ids)
+        return random_group_id
 
     def delete_contact_from_group_by_id(self, id, group_name):
         wd = self.app.wd
