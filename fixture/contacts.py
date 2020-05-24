@@ -356,6 +356,8 @@ class ContactsHelpers:
         select_element = Select(wd.find_element_by_name('to_group'))
         select_element.select_by_value(group_id)
         wd.find_element_by_name("add").click()
+        wd.find_element_by_xpath("//i[text()='Go to ']").click()
+
 
     def get_random_group_for_add_contact(self):
         wd = self.app.wd
@@ -365,12 +367,12 @@ class ContactsHelpers:
         random_group_id = random.choice(all_groups_ids)
         return random_group_id
 
-    def delete_contact_from_group_by_id(self, id, group_name):
+    def delete_contact_from_group_by_id(self, id, group_id):
         wd = self.app.wd
         select_element = Select(wd.find_element_by_name('group'))
-        select_element.select_by_visible_text(group_name)
+        select_element.select_by_value(group_id)
         self.select_contact_by_id(id)
-        wd.find_element_by_name('remove').click()
+        wd.find_element_by_xpath("//input[@name='remove']").click()
         wd.find_element_by_xpath("//i[text()='return to ']").click()
 
 

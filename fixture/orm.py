@@ -13,7 +13,8 @@ class ORMFixture:
         name = Optional(str, column='group_name')
         header = Optional(str, column='group_header')
         footer = Optional(str, column='group_footer')
-        contacts = Set(lambda: ORMFixture.ORMContact, table="address_in_groups", column="id", reverse="groups", lazy=True)
+        contacts = Set(lambda: ORMFixture.ORMContact, table="address_in_groups", column="id", reverse="groups",
+                       lazy=True)
 
     class ORMContact(db.Entity):
         _table_ = 'addressbook'
@@ -22,16 +23,21 @@ class ORMFixture:
         last_name = Optional(str, column='lastname')
         address = Optional(str, column='address')
         deprecated = Optional(datetime, column='deprecated')
-        groups = Set(lambda: ORMFixture.ORMGroup, table="address_in_groups", column="group_id", reverse="contacts", lazy=True)
+        groups = Set(lambda: ORMFixture.ORMGroup, table="address_in_groups", column="group_id", reverse="contacts",
+                     lazy=True)
 
     def __init__(self, host, name, user, password):
-        self.db.bind('mysql', host=host, database=name, user=user, password=password)
-        self.db.generate_mapping()
-        sql_debug(True)
+        try:
+            self.db.bind('mysql', host=host, database=name, user=user, password=password)
+            self.db.generate_mapping()
+            sql_debug(True)
+        except BindingError:
+            pass
 
     def convert_groups_to_model(self, groups):
         def convert(group):
             return Group(id=str(group.id), name=group.name, header=group.header, footer=group.footer)
+
         return list(map(convert, groups))
 
     @db_session
@@ -42,6 +48,7 @@ class ORMFixture:
         def convert(contacts):
             return Contacts(id=str(contacts.id), first_name=contacts.first_name, last_name=contacts.last_name,
                             address=contacts.address)
+
         return list(map(convert, contacts))
 
     @db_session
