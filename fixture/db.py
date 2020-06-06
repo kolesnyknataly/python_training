@@ -33,10 +33,9 @@ class DbFixture:
                 "where deprecated='0000-00-00 00:00:00'")
             for row in cursor:
                 (id, first_name, last_name, address, email, email_2, email_3, home, mobile, work, phone2) = row
-                emails = '\n'.join(filter(None, [email, email_2, email_3]))
-                phones = '\n'.join(filter(None, [home, mobile, work, phone2]))
                 list.append(Contacts(id=str(id), first_name=first_name, last_name=last_name, address=address,
-                                     all_emails=emails, all_phones=phones))
+                                     email=email, email_2=email_2, email_3=email_3, home=home, mobile=mobile, work=work,
+                                     phone2=phone2))
         finally:
             cursor.close()
         return list
